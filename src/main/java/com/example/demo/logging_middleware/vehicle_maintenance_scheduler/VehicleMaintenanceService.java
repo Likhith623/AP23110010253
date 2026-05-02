@@ -36,8 +36,8 @@ public class VehicleMaintenanceService {
     private static final String CLIENT_SECRET = "TuTcAddeMczaYRNa";
     private static final String BEARER_TOKEN  =
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-            "eyJNYXBDbGFpbXMiOnsiYXVkIjoiaHR0cDovLzIwLjI0NC41Ni4xNDQvZXZhbHVhdGlvbi1zZXJ2aWNlIiwiZW1haWwiOiJsaWtoaXRoY2hvd2RhcnlfdmFzaXJlZGR5QHNybWFwLmVkdS5pbiIsImV4cCI6MTc3NzcwMjcxMywiaWF0IjoxNzc3NzAxODEzLCJpc3MiOiJBZmZvcmQgTWVkaWNhbCBUZWNobm9sb2dpZXMgUHJpdmF0ZSBMaW1pdGVkIiwianRpIjoiMzdlN2Y2OTEtNzliYy00NWY5LWJiYWQtNGY1M2YyZTk5OTUzIiwibG9jYWxlIjoiZW4tSU4iLCJuYW1lIjoibGlraGl0aCBjaG93ZGFyeSB2YXNpcmVkZHkiLCJzdWIiOiI0NTk4ZWRmYi0yOTE0LTQyOGUtODRhNy1lODc5YWIzNGM4YWQifSwiZW1haWwiOiJsaWtoaXRoY2hvd2RhcnlfdmFzaXJlZGR5QHNybWFwLmVkdS5pbiIsIm5hbWUiOiJsaWtoaXRoIGNob3dkYXJ5IHZhc2lyZWRkeSIsInJvbGxObyI6ImFwMjMxMTAwMTAyNTMiLCJhY2Nlc3NDb2RlIjoiUWticHhIIiwiY2xpZW50SUQiOiI0NTk4ZWRmYi0yOTE0LTQyOGUtODRhNy1lODc5YWIzNGM4YWQiLCJjbGllbnRTZWNyZXQiOiJUdVRjQWRkZU1jemFZUk5hIn0." +
-            "qHnMvv0QllZCmVjko8A-10zOh-pvkuUfPF4DgA5vb0U";
+            "eyJNYXBDbGFpbXMiOnsiYXVkIjoiaHR0cDovLzIwLjI0NC41Ni4xNDQvZXZhbHVhdGlvbi1zZXJ2aWNlIiwiZW1haWwiOiJsaWtoaXRoY2hvd2RhcnlfdmFzaXJlZGR5QHNybWFwLmVkdS5pbiIsImV4cCI6MTc3NzcwNjEyNSwiaWF0IjoxNzc3NzA1MjI1LCJpc3MiOiJBZmZvcmQgTWVkaWNhbCBUZWNobm9sb2dpZXMgUHJpdmF0ZSBMaW1pdGVkIiwianRpIjoiZTYwNDEyNGEtOTY2Yi00ZTQ1LWI5YzAtZThkYmRlZTMzMTU1IiwibG9jYWxlIjoiZW4tSU4iLCJuYW1lIjoibGlraGl0aCBjaG93ZGFyeSB2YXNpcmVkZHkiLCJzdWIiOiI0NTk4ZWRmYi0yOTE0LTQyOGUtODRhNy1lODc5YWIzNGM4YWQifSwiZW1haWwiOiJsaWtoaXRoY2hvd2RhcnlfdmFzaXJlZGR5QHNybWFwLmVkdS5pbiIsIm5hbWUiOiJsaWtoaXRoIGNob3dkYXJ5IHZhc2lyZWRkeSIsInJvbGxObyI6ImFwMjMxMTAwMTAyNTMiLCJhY2Nlc3NDb2RlIjoiUWticHhIIiwiY2xpZW50SUQiOiI0NTk4ZWRmYi0yOTE0LTQyOGUtODRhNy1lODc5YWIzNGM4YWQiLCJjbGllbnRTZWNyZXQiOiJUdVRjQWRkZU1jemFZUk5hIn0." +
+            "QPWuQHUlTRYcbAFLbT4KjqOYVhm8T-nlDGl2UmK77-g";
 
     private static final String DEPOTS_API   =
             "http://20.207.122.201/evaluation-service/depots";
@@ -55,19 +55,19 @@ public class VehicleMaintenanceService {
      */
     public void runScheduler() {
         AffordmedLogger.Log("backend", "info", "service",
-                "VehicleMaintenanceScheduler — starting scheduler run for rollNo=ap23110010253");
+                "Scheduler starting — rollNo=ap23110010253");
 
         List<Depot>   depots   = fetchDepots();
         List<Vehicle> vehicles = fetchVehicles();
 
         if (depots.isEmpty() || vehicles.isEmpty()) {
             AffordmedLogger.Log("backend", "error", "service",
-                    "VehicleMaintenanceScheduler — empty data received; aborting");
+                    "Scheduler aborted — empty data received");
             return;
         }
 
         AffordmedLogger.Log("backend", "info", "service",
-                String.format("Fetched %d depots and %d vehicles — beginning optimisation",
+                String.format("Fetched %d depots and %d vehicles",
                         depots.size(), vehicles.size()));
 
         for (Depot depot : depots) {
@@ -76,7 +76,7 @@ public class VehicleMaintenanceService {
         }
 
         AffordmedLogger.Log("backend", "info", "service",
-                "VehicleMaintenanceScheduler — all depots processed successfully");
+                "Scheduler — all depots processed");
     }
 
     // ── 0/1 Knapsack Solver ──────────────────────────────────────────────────
@@ -128,7 +128,7 @@ public class VehicleMaintenanceService {
 
     private List<Depot> fetchDepots() {
         AffordmedLogger.Log("backend", "info", "service",
-                "Fetching depots from Affordmed API — " + DEPOTS_API);
+                "Fetching depots from Affordmed API");
         try {
             HttpRequest req = buildGetRequest(DEPOTS_API);
             HttpResponse<String> resp =
@@ -160,7 +160,7 @@ public class VehicleMaintenanceService {
 
     private List<Vehicle> fetchVehicles() {
         AffordmedLogger.Log("backend", "info", "service",
-                "Fetching vehicles from Affordmed API — " + VEHICLES_API);
+                "Fetching vehicles from Affordmed API");
         try {
             HttpRequest req = buildGetRequest(VEHICLES_API);
             HttpResponse<String> resp =

@@ -40,8 +40,8 @@ public class AffordmedLogger {
     private static final String CLIENT_SECRET = "TuTcAddeMczaYRNa";
     private static final String BEARER_TOKEN  =
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-            "eyJNYXBDbGFpbXMiOnsiYXVkIjoiaHR0cDovLzIwLjI0NC41Ni4xNDQvZXZhbHVhdGlvbi1zZXJ2aWNlIiwiZW1haWwiOiJsaWtoaXRoY2hvd2RhcnlfdmFzaXJlZGR5QHNybWFwLmVkdS5pbiIsImV4cCI6MTc3NzcwMjcxMywiaWF0IjoxNzc3NzAxODEzLCJpc3MiOiJBZmZvcmQgTWVkaWNhbCBUZWNobm9sb2dpZXMgUHJpdmF0ZSBMaW1pdGVkIiwianRpIjoiMzdlN2Y2OTEtNzliYy00NWY5LWJiYWQtNGY1M2YyZTk5OTUzIiwibG9jYWxlIjoiZW4tSU4iLCJuYW1lIjoibGlraGl0aCBjaG93ZGFyeSB2YXNpcmVkZHkiLCJzdWIiOiI0NTk4ZWRmYi0yOTE0LTQyOGUtODRhNy1lODc5YWIzNGM4YWQifSwiZW1haWwiOiJsaWtoaXRoY2hvd2RhcnlfdmFzaXJlZGR5QHNybWFwLmVkdS5pbiIsIm5hbWUiOiJsaWtoaXRoIGNob3dkYXJ5IHZhc2lyZWRkeSIsInJvbGxObyI6ImFwMjMxMTAwMTAyNTMiLCJhY2Nlc3NDb2RlIjoiUWticHhIIiwiY2xpZW50SUQiOiI0NTk4ZWRmYi0yOTE0LTQyOGUtODRhNy1lODc5YWIzNGM4YWQiLCJjbGllbnRTZWNyZXQiOiJUdVRjQWRkZU1jemFZUk5hIn0." +
-            "qHnMvv0QllZCmVjko8A-10zOh-pvkuUfPF4DgA5vb0U";
+            "eyJNYXBDbGFpbXMiOnsiYXVkIjoiaHR0cDovLzIwLjI0NC41Ni4xNDQvZXZhbHVhdGlvbi1zZXJ2aWNlIiwiZW1haWwiOiJsaWtoaXRoY2hvd2RhcnlfdmFzaXJlZGR5QHNybWFwLmVkdS5pbiIsImV4cCI6MTc3NzcwNjEyNSwiaWF0IjoxNzc3NzA1MjI1LCJpc3MiOiJBZmZvcmQgTWVkaWNhbCBUZWNobm9sb2dpZXMgUHJpdmF0ZSBMaW1pdGVkIiwianRpIjoiZTYwNDEyNGEtOTY2Yi00ZTQ1LWI5YzAtZThkYmRlZTMzMTU1IiwibG9jYWxlIjoiZW4tSU4iLCJuYW1lIjoibGlraGl0aCBjaG93ZGFyeSB2YXNpcmVkZHkiLCJzdWIiOiI0NTk4ZWRmYi0yOTE0LTQyOGUtODRhNy1lODc5YWIzNGM4YWQifSwiZW1haWwiOiJsaWtoaXRoY2hvd2RhcnlfdmFzaXJlZGR5QHNybWFwLmVkdS5pbiIsIm5hbWUiOiJsaWtoaXRoIGNob3dkYXJ5IHZhc2lyZWRkeSIsInJvbGxObyI6ImFwMjMxMTAwMTAyNTMiLCJhY2Nlc3NDb2RlIjoiUWticHhIIiwiY2xpZW50SUQiOiI0NTk4ZWRmYi0yOTE0LTQyOGUtODRhNy1lODc5YWIzNGM4YWQiLCJjbGllbnRTZWNyZXQiOiJUdVRjQWRkZU1jemFZUk5hIn0." +
+            "QPWuQHUlTRYcbAFLbT4KjqOYVhm8T-nlDGl2UmK77-g";
 
     // ── Allowed Values (lower-case only) ─────────────────────────────────────
     // Stack   : "backend" | "frontend"
@@ -69,6 +69,11 @@ public class AffordmedLogger {
      */
     public static String Log(String stack, String level, String pkg, String message) {
         try {
+            // Affordmed API rejects messages longer than 48 characters
+            if (message != null && message.length() > 48) {
+                message = message.substring(0, 45) + "...";
+            }
+
             Map<String, String> body = new HashMap<>();
             body.put("stack",   stack);
             body.put("level",   level);
